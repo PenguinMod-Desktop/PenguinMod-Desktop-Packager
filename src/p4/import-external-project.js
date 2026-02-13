@@ -84,6 +84,48 @@ const importFromParent = ({
   });
 };
 
+const importFromTauri = ({
+  onStartImporting,
+  onFinishImporting,
+  onCancelImporting
+}) => {
+  const current = window.__TAURI__.webviewWindow.getCurrentWebviewWindow();
+  const postMessage = (name, data) => current.emitTo('main', name, data);
+
+  let hasStarted = false;
+  let hasFinishedOrCancelled = false;
+
+  const unlisten = current.listen('import', (event) => {
+    const payload = event.payload;
+    if (!payload) {
+      return;
+    }
+
+    if (!hasStarted) {
+      if (payload.type === 'start-import') {
+        hasStarted = true;
+        onStartImporting();
+      }
+    } else if (!hasFinishedOrCancelled) {
+      if (payload.type === 'finish-import') {
+        cleanup();
+
+        onFinishImporting(toFileList(new Uint8Array(payload.data).buffer, payload.name));
+      } else if (payload.type === 'cancel-import') {
+        cleanup();
+        onCancelImporting();
+      }
+    }
+  });
+
+  const cleanup = () => {
+    hasFinishedOrCancelled = true;
+    (async () => (await unlisten)())(); // unlisten is a promise
+  };
+
+  postMessage('ready-for-import');
+}
+
 const importFromAPI = async ({
   onStartImporting,
   onFinishImporting,
@@ -116,6 +158,14 @@ const importProject = ({
   if (searchParams.has('import_from')) {
     importFromParent({
       origin: searchParams.get('import_from'),
+      onStartImporting,
+      onFinishImporting,
+      onCancelImporting
+    });
+    return;
+  }
+  if (searchParams.has('import_from_tauri')) {
+    importFromTauri({
       onStartImporting,
       onFinishImporting,
       onCancelImporting
