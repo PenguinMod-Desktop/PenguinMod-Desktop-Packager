@@ -10,6 +10,8 @@
   export let blob;
 
   let workaroundInProgress;
+  
+  window.PenguinModDesktop_downloadURL = () => downloadURL(name, url);
 
   const useAlternativeDownloadToBypassChromeOSBugs = async () => {
     // We've had a lot of bug reports about people on Chrome OS devices not being able to download
@@ -49,7 +51,7 @@
 <Section center>
   <div>
     <p>
-      <a href={url} download={name}>
+      <a href='javascript:window.PenguinModDesktop_downloadURL()'>
         {$_('downloads.link')
           .replace('{size}', `${(blob.size / 1000 / 1000).toFixed(2)}MB`)
           .replace('{filename}', name)}
