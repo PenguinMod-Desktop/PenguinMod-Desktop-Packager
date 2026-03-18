@@ -126,7 +126,7 @@
         <p>{$_('p4.errorMessage').replace('{error}', $error)}</p>
         <p>
           <Button on:click={closeModal} text={$_('p4.close')} />
-          <a href={FEEDBACK_PRIMARY.link}>{$_('p4.reportBug')}</a>
+          <a target="_blank" href={FEEDBACK_PRIMARY.link}>{$_('p4.reportBug')}</a>
         </p>
       {/if}
     </Section>

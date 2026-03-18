@@ -138,7 +138,7 @@
         <p class="version">
           {version}
           {#if isStandalone}
-            - <a href={WEBSITE}>{WEBSITE}</a>
+            - <a target="_blank" href={WEBSITE}>{WEBSITE}</a>
           {/if}
         </p>
       {/if}
@@ -219,24 +219,24 @@
   <footer>
     <div>
       {#if PRIVACY_POLICY && !isStandalone}
-        <a href={PRIVACY_POLICY}>{$_('p4.privacy')}</a>
+        <a target="_blank" href={PRIVACY_POLICY}>{$_('p4.privacy')}</a>
         <span> - </span>
       {/if}
-      <a href={FEEDBACK_PRIMARY.link}>{$_('p4.feedback')}</a>
+      <a target="_blank" href={FEEDBACK_PRIMARY.link}>{$_('p4.feedback')}</a>
       {#if SOURCE_CODE}
         <span> - </span>
-        <a href={SOURCE_CODE}>{$_('p4.sourceCode')}</a>
+        <a target="_blank" href={SOURCE_CODE}>{$_('p4.sourceCode')}</a>
       {/if}
       {#if DONATE}
         <!-- Donation link needs to be wrapped in another element so we can hide it in the Mac App Store -->
         <span class="donate-link">
           <span> - </span>
-          <a href={DONATE}>{$_('p4.donate')}</a>
+          <a target="_blank" href={DONATE}>{$_('p4.donate')}</a>
         </span>
       {/if}
     </div>
     <div>
-      <a href="https://docs.turbowarp.org/packager">{$_('p4.documentation')}</a>
+      <a target="_blank" href="https://docs.turbowarp.org/packager">{$_('p4.documentation')}</a>
     </div>
     <div>
       <SelectTheme />
