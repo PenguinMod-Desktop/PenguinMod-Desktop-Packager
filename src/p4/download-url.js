@@ -24,6 +24,8 @@ const downloadURL = (filename, url) => {
     document.body.appendChild(link);
     link.click();
     link.remove();
+
+    alert('The file should appear in your downloads folder!');
   }
 };
 
